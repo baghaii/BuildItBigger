@@ -43,6 +43,7 @@ public class DadJokes {
     jokes.add("What kind of tea is hard to swallow? Reality.");
     jokes.add("Doctor: You broke your arm in three places. Me: I guess I’ll stay away from those places.");
 
+    //https://www.tutorialspoint.com/java/util/collections_shuffle.htm
     Collections.shuffle(jokes);
   }
 
