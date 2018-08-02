@@ -7,6 +7,7 @@ import java.util.List;
 public class DadJokes {
 
   private List<String> jokes;
+  private int index = -1;
 
   public DadJokes() {
     jokes = new ArrayList<String>();
@@ -44,11 +45,24 @@ public class DadJokes {
     jokes.add("Doctor: You broke your arm in three places. Me: I guess I’ll stay away from those places.");
 
     //https://www.tutorialspoint.com/java/util/collections_shuffle.htm
-    Collections.shuffle(jokes);
   }
 
  public String getJoke() {
-    return jokes.get(0);
- }
 
+    index = index + 1;
+
+    if (index == 0) {
+      //This will happen the first time through.
+      Collections.shuffle(jokes);
+      return jokes.get(index);
+    } else if (index > 0 && index < jokes.size()) {
+      //This will happen for all following turns until end of List.
+      return jokes.get(index);
+    } else {
+      //This will happen at end of List.
+      index = 0;
+      Collections.shuffle(jokes);
+      return jokes.get(index);
+    }
+ }
 }

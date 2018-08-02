@@ -55,6 +55,7 @@ dependencies {
     //Learned how to include the library from
     // https://github.com/udacity/ud867/blob/master/4.01-Demo-CreatingAJavaLibrary/app/build.gradle
     implementation project(':jokes')
+    implementation project(':jokedisplay')
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
