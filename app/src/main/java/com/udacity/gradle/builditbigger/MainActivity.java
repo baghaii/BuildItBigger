@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.sepidehmiller.jokedisplay.JokeDisplayActivity;
 import com.sepidehmiller.jokes.DadJokes;
@@ -48,9 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void tellJoke(View view) {
       String joke = mDadJokes.getJoke();
-      Toast.makeText(this, mDadJokes.getJoke(), Toast.LENGTH_SHORT).show();
       Intent intent = new Intent(this, JokeDisplayActivity.class);
-      intent.putExtra(JokeDisplayActivity.JOKE_MESSAGE, joke);
+      //Set up activity caught by intent filter.
+      //https://developer.android.com/guide/components/intents-filters
+      intent.setAction(Intent.ACTION_SEND);
+      intent.setType("text/plain");
+      intent.putExtra(Intent.EXTRA_TEXT, joke);
       startActivity(intent);
     }
 

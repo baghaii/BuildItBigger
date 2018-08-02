@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 public class JokeDisplayActivity extends AppCompatActivity {
-  public static final String JOKE_MESSAGE = "JokeMessage";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +20,7 @@ public class JokeDisplayActivity extends AppCompatActivity {
 
     if (Intent.ACTION_SEND.equals(action) && type != null) {
       if ("text/plain".equals(type)) {
-        String joke = intent.getStringExtra(JOKE_MESSAGE);
+        String joke = intent.getStringExtra(Intent.EXTRA_TEXT);
         tv.setText(joke);
       }
     }

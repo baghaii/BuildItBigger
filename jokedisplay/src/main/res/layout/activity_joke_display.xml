@@ -7,18 +7,17 @@
   android:background="@android:color/darker_gray"
   tools:context=".JokeDisplayActivity">
 
-  <!-- TODO maybe make this prettier -->
-
   <TextView
     android:id="@+id/joke_textview"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="@drawable/rounded_corners"
     android:textColor="@android:color/black"
     android:textSize="26sp"
     android:layout_gravity="center"
-    android:padding="5dp"
-    android:text="Hello"
+    android:padding="8dp"
+    android:layout_margin="16dp"
+
     />
 
 </FrameLayout>
