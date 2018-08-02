@@ -41,7 +41,7 @@ https://developers.google.com/mobile-ads-sdk/docs/admob/android/quick-start
 You may need to download the Google Repository from the Extras section of the
 Android SDK Manager.
 
-You will also notice a folder called backend in the starter code. 
+You will also notice a folder called backend in the starter code.
 It will be used in step 3 below, and you do not need to worry about it for now.
 
 When you can build an deploy this starter code to an emulator, you're ready to
@@ -72,10 +72,10 @@ http://developer.android.com/guide/components/intents-filters.html
 
 This next task will be pretty tricky. Instead of pulling jokes directly from
 our Java library, we'll set up a Google Cloud Endpoints development server,
-and pull our jokes from there. The starter code already includes the GCE module 
+and pull our jokes from there. The starter code already includes the GCE module
 in the folder called backend.
 
-Before going ahead you will need to be able to run a local instance of the GCE 
+Before going ahead you will need to be able to run a local instance of the GCE
 server. In order to do that you will have to install the Cloud SDK:
 
 https://cloud.google.com/sdk/docs/
@@ -91,20 +91,20 @@ the Setup Cloud SDK.
 Start or stop your local server by using the gradle tasks as shown in the following
 screenshot:
 
-<img src="/FinalProject/GCE-server-gradle-tasks.png" height="500">
+<img src="GCE-server-gradle-tasks.png" height="500">
 
-Once your local GCE server is started you should see the following at 
+Once your local GCE server is started you should see the following at
 [localhost:8080](http://localhost:8080)
 
 <img src="https://raw.githubusercontent.com/GoogleCloudPlatform/gradle-appengine-templates/77e9910911d5412e5efede5fa681ec105a0f02ad/doc/img/devappserver-endpoints.png">
 
-Now you are ready to continue! 
+Now you are ready to continue!
 
-Introduce a project dependency between your Java library 
-and your GCE module, and modify the GCE starter code to pull jokes from your Java library. 
-Create an AsyncTask to retrieve jokes using the template included int these 
-[instructions](https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/77e9910911d5412e5efede5fa681ec105a0f02ad/HelloEndpoints#2-connecting-your-android-app-to-the-backend). 
-Make the button kick off a task to retrieve a joke, 
+Introduce a project dependency between your Java library
+and your GCE module, and modify the GCE starter code to pull jokes from your Java library.
+Create an AsyncTask to retrieve jokes using the template included int these
+[instructions](https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/77e9910911d5412e5efede5fa681ec105a0f02ad/HelloEndpoints#2-connecting-your-android-app-to-the-backend).
+Make the button kick off a task to retrieve a joke,
 then launch the activity from your Android Library to display it.
 
 
