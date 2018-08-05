@@ -10,17 +10,24 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 tools:context=".MainActivityFragment">
 
-  <TextView
-    android:id="@+id/instructions_text_view"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/instructions" />
-
   <Button
+    android:id="@+id/joke_button"
+    android:textSize="26sp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/instructions_text_view"
+    android:layout_centerInParent="true"
     android:onClick="tellJoke"
     android:text="@string/button_text" />
+  
+  <ProgressBar
+    android:id="@+id/progress_bar"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/joke_button"
+    android:layout_margin="16dp"
+    android:layout_centerHorizontal="true"
+    android:visibility="gone"
+    style="@android:style/Widget.ProgressBar"
+    />
 
 </RelativeLayout>

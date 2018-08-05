@@ -7,27 +7,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.sepidehmiller.jokedisplay.JokeDisplayActivity;
-import com.sepidehmiller.jokes.DadJokes;
 import com.udacity.gradle.builditbigger.backend.myApi.MyApi;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private DadJokes mDadJokes;
+    ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mDadJokes = new DadJokes();
+        mProgressBar = findViewById(R.id.progress_bar);
     }
 
 
@@ -56,19 +57,19 @@ public class MainActivity extends AppCompatActivity {
     public void tellJoke(View view) {
 
       new EndpointAsyncTask().execute();
-    /*  String joke = mDadJokes.getJoke();
-      Intent intent = new Intent(this, JokeDisplayActivity.class);
-      //Set up activity caught by intent filter.
-      //https://developer.android.com/guide/components/intents-filters
-      intent.setAction(Intent.ACTION_SEND);
-      intent.setType("text/plain");
-      intent.putExtra(Intent.EXTRA_TEXT, joke);
-      startActivity(intent); */
+
+
     }
 
   // https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/77e9910911d5412e5efede5fa681ec105a0f02ad/HelloEndpoints#2-connecting-your-android-app-to-the-backend
   public class EndpointAsyncTask extends AsyncTask<Void, Void, String> {
     private MyApi sMyApiService = null;
+
+    @Override
+    protected void onPreExecute() {
+      super.onPreExecute();
+      showProgressBar();
+    }
 
     @Override
     protected String doInBackground(Void... params) {
@@ -89,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
 
         sMyApiService = builder.build();
       }
-
-
       try {
         return sMyApiService.getJoke().execute().getData();
+      } catch (SocketTimeoutException se) {
+        return se.getMessage();
       } catch (IOException e) {
         return e.getMessage();
       }
@@ -108,8 +109,21 @@ public class MainActivity extends AppCompatActivity {
       intent.setType("text/plain");
       intent.putExtra(Intent.EXTRA_TEXT, joke);
       startActivity(intent);
-
+      hideProgressBar();
     }
+
+  }
+
+  public void showProgressBar() {
+      if (mProgressBar != null) {
+        mProgressBar.setVisibility(View.VISIBLE);
+      }
+  }
+
+  public void hideProgressBar() {
+      if (mProgressBar != null) {
+        mProgressBar.setVisibility(View.GONE);
+      }
   }
 
 }
