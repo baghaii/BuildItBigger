@@ -3,11 +3,13 @@ package com.udacity.gradle.builditbigger;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -23,12 +25,14 @@ import java.net.SocketTimeoutException;
 public class MainActivity extends AppCompatActivity {
 
     ProgressBar mProgressBar;
+    TextView mErrorView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mProgressBar = findViewById(R.id.progress_bar);
+        mErrorView = findViewById(R.id.error_textview);
     }
 
 
@@ -56,13 +60,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void tellJoke(View view) {
 
+      mErrorView.setVisibility(View.GONE);
       new EndpointAsyncTask().execute();
-
 
     }
 
   // https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/77e9910911d5412e5efede5fa681ec105a0f02ad/HelloEndpoints#2-connecting-your-android-app-to-the-backend
-  public class EndpointAsyncTask extends AsyncTask<Void, Void, String> {
+  public class EndpointAsyncTask extends AsyncTask<Void, Void, JokeResponse> {
     private MyApi sMyApiService = null;
 
     @Override
@@ -72,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected String doInBackground(Void... params) {
+    protected JokeResponse doInBackground(Void... params) {
       if(sMyApiService == null) {  // Only do this once
         MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
             new AndroidJsonFactory(), null)
@@ -91,26 +95,44 @@ public class MainActivity extends AppCompatActivity {
         sMyApiService = builder.build();
       }
       try {
-        return sMyApiService.getJoke().execute().getData();
+        JokeResponse response = new JokeResponse(true,
+            sMyApiService.getJoke().execute().getData());
+        return response;
       } catch (SocketTimeoutException se) {
-        return se.getMessage();
+        JokeResponse response = new JokeResponse(false,
+            se.getMessage());
+        return response;
       } catch (IOException e) {
-        return e.getMessage();
+        JokeResponse response = new JokeResponse(false, e.getMessage());
+        return response;
       }
     }
 
     @Override
-    protected void onPostExecute(String joke) {
+    protected void onPostExecute(JokeResponse joke) {
       super.onPostExecute(joke);
+      handleJokeResponse(joke);
       Intent intent = new Intent(MainActivity.this, JokeDisplayActivity.class);
       //Set up activity caught by intent filter.
       //https://developer.android.com/guide/components/intents-filters
-      intent.setAction(Intent.ACTION_SEND);
-      intent.setType("text/plain");
-      intent.putExtra(Intent.EXTRA_TEXT, joke);
-      startActivity(intent);
-      hideProgressBar();
+      if (joke.isOk()) {
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, joke.getResponseMessage());
+        startActivity(intent);
+        hideProgressBar();
+      } else {
+        mErrorView.setVisibility(View.VISIBLE);
+        mErrorView.setText(joke.getResponseMessage());
+      }
     }
+
+  }
+
+  //https://medium.com/@v.danylo/simple-way-to-test-asynchronous-actions-in-android-service-asynctask-thread-rxjava-etc-d43b0402e005
+
+  @VisibleForTesting
+  public void handleJokeResponse(JokeResponse joke) {
 
   }
 
