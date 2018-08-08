@@ -1,13 +1,11 @@
 package com.sepidehmiller.jokes;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class DadJokes {
 
   private List<String> jokes;
-  private int index = -1;
 
   public DadJokes() {
     jokes = new ArrayList<String>();
@@ -47,22 +45,10 @@ public class DadJokes {
     //https://www.tutorialspoint.com/java/util/collections_shuffle.htm
   }
 
- public String getJoke() {
+  public String getJoke() {
 
-    index = index + 1;
-
-    if (index == 0) {
-      //This will happen the first time through.
-      Collections.shuffle(jokes);
-      return jokes.get(index);
-    } else if (index > 0 && index < jokes.size()) {
-      //This will happen for all following turns until end of List.
-      return jokes.get(index);
-    } else {
-      //This will happen at end of List.
-      index = 0;
-      Collections.shuffle(jokes);
-      return jokes.get(index);
-    }
- }
+    int index = (int) (Math.random() * jokes.size());
+    return jokes.get(index);
+  }
 }
+

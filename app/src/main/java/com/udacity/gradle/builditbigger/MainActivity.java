@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPostExecute(JokeResponse joke) {
       super.onPostExecute(joke);
-      handleJokeResponse(joke);
       Intent intent = new Intent(MainActivity.this, JokeDisplayActivity.class);
       //Set up activity caught by intent filter.
       //https://developer.android.com/guide/components/intents-filters
