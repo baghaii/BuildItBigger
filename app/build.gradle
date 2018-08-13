@@ -31,7 +31,7 @@ android {
         }
     }
 
-    flavorDimensions "tier", "test"
+    flavorDimensions "tier"
 
     //https://developer.android.com/studio/build/build-variants
     productFlavors {
@@ -42,10 +42,6 @@ android {
         paid {
             applicationId "com.udacity.gradle.builditbigger.paid"
             dimension "tier"
-        }
-        appTestFlavor {
-            applicationId "com.udacity.gradle.builditbigger.appTestFlavor"
-            dimension "test"
         }
     }
 }

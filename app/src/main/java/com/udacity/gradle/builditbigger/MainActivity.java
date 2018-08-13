@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,8 +25,14 @@ import java.net.SocketTimeoutException;
 
 public class MainActivity extends AppCompatActivity {
 
-    ProgressBar mProgressBar;
-    TextView mErrorView;
+    private ProgressBar mProgressBar;
+    private TextView mErrorView;
+
+    // How do I use a CountingIdlingResource?
+    // https://medium.com/@wingoku/synchronizing-espresso-with-custom-threads-using-idling-resource-retrofit-70439ad2f07
+
+    private CountingIdlingResource mCountingIdlingResource = new CountingIdlingResource("JokeCall");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         sMyApiService = builder.build();
       }
       try {
+        mCountingIdlingResource.increment();
         JokeResponse response = new JokeResponse(true,
             sMyApiService.getJoke().execute().getData());
         return response;
@@ -110,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPostExecute(JokeResponse joke) {
+      mCountingIdlingResource.decrement();
       super.onPostExecute(joke);
       Intent intent = new Intent(MainActivity.this, JokeDisplayActivity.class);
       //Set up activity caught by intent filter.
@@ -131,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
   //https://medium.com/@v.danylo/simple-way-to-test-asynchronous-actions-in-android-service-asynctask-thread-rxjava-etc-d43b0402e005
 
   @VisibleForTesting
-  public void handleJokeResponse(JokeResponse joke) {
-
+  public CountingIdlingResource getCountingIdlingResource() {
+    return mCountingIdlingResource;
   }
 
   public void showProgressBar() {

@@ -15,7 +15,7 @@ public class ElapsedTimeIdlingResource implements IdlingResource {
   public ElapsedTimeIdlingResource(long waitingTime) {
     this.startingTime = System.currentTimeMillis();
     this.waitingTime = waitingTime;
-    
+
   }
 
   @Override
