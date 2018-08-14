@@ -128,11 +128,11 @@ public class MainActivity extends AppCompatActivity {
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, joke.getResponseMessage());
         startActivity(intent);
-        hideProgressBar();
       } else {
         mErrorView.setVisibility(View.VISIBLE);
         mErrorView.setText(joke.getResponseMessage());
       }
+      hideProgressBar();
     }
 
   }

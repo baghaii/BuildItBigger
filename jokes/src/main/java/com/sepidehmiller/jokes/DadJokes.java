@@ -3,7 +3,7 @@ package com.sepidehmiller.jokes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DadJokes {
+public final class DadJokes {
 
   private List<String> jokes;
 
